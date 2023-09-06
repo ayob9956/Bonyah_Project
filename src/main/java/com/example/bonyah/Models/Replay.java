@@ -16,8 +16,7 @@ public class Replay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotEmpty(message = "title must be not null")
-    @Column(columnDefinition = "varchar(25) not null unique")
+
     private String title;
     private String body;
     private Integer rating;
