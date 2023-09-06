@@ -24,7 +24,7 @@ public class Replay {
     @Column(columnDefinition = "varchar(50)")
     private String body;
 
-    @Column(nullable = false, columnDefinition = "INT CHECK (rating BETWEEN 1 AND 5)")
+    @Column(nullable = false, columnDefinition = "INT CHECK (rating >= 1 AND rating <=5)")
     private Integer rating;
 
 

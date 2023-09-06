@@ -42,4 +42,7 @@ public class Customer {
     @JsonIgnore
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")
+    @PrimaryKeyJoinColumn
+    private Cart cart;
 }
