@@ -1,8 +1,7 @@
 package com.example.bonyah.Controller;
 
 import com.example.bonyah.Api.ApiResponse;
-import com.example.bonyah.Models.Order;
-import com.example.bonyah.Repository.OrderRepo;
+import com.example.bonyah.Models.Orders;
 import com.example.bonyah.Service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,21 +15,24 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/get-all")
-    public ResponseEntity getAllOrder(){
+    public ResponseEntity getAllOrder() {
         return ResponseEntity.status(200).body(orderService.getAllOrder());
     }
+
     @PostMapping("/add")
-    public ResponseEntity addOrder(@RequestBody @Valid Order order){
+    public ResponseEntity addOrder(@RequestBody @Valid Orders order) {
         orderService.addOrder(order);
         return ResponseEntity.status(200).body(new ApiResponse("order added"));
     }
+
     @PutMapping("/update/{id}")
-    public ResponseEntity updateOrder(@PathVariable Integer id,@RequestBody @Valid Order order){
-        orderService.updateOrder(id,order);
+    public ResponseEntity updateOrder(@PathVariable Integer id, @RequestBody @Valid Orders order) {
+        orderService.updateOrder(id, order);
         return ResponseEntity.status(200).body(new ApiResponse("order updated"));
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteOrder(@PathVariable Integer id){
+    public ResponseEntity deleteOrder(@PathVariable Integer id) {
         orderService.deleteOrder(id);
         return ResponseEntity.status(200).body(new ApiResponse("order deleted"));
     }

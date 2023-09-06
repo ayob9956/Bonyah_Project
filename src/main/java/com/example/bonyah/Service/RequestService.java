@@ -13,26 +13,29 @@ import java.util.List;
 public class RequestService {
     private final RequestRepo requestRepo;
 
-    public List<Request>getAllRequest(){
+    public List<Request> getAllRequest() {
         return requestRepo.findAll();
     }
-    public void addRequest(Request request){
+
+    public void addRequest(Request request) {
         requestRepo.save(request);
     }
-    public void updateRequest(Integer id, Request request){
+
+    public void updateRequest(Integer id, Request request) {
         Request request1 = requestRepo.findRequestById(id);
-        if (request1==null){
+        if (request1 == null) {
             throw new ApiException("id not founded");
         }
         request1.setDescription(request.getDescription());
-        request1.setPriceCustomer(request.getPriceCustomer());
-        request1.setProviderPrice(request.getProviderPrice());
+        request1.setCustomer_price(request.getCustomer_price());
+        request1.setProvider_price(request.getProvider_price());
         request1.setLocation(request.getLocation());
         requestRepo.save(request1);
     }
-    public void deleteRequest(Integer id){
-        Request request=requestRepo.findRequestById(id);
-        if (request==null){
+
+    public void deleteRequest(Integer id) {
+        Request request = requestRepo.findRequestById(id);
+        if (request == null) {
             throw new ApiException("id not founded");
         }
         requestRepo.delete(request);
