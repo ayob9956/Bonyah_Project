@@ -1,5 +1,6 @@
 package com.example.bonyah.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Setter
 @Getter
@@ -30,5 +33,17 @@ public class Service {
     @Positive(message = "price must be positive number")
     @Column(columnDefinition = "integer not null")
     private Integer price;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
+    private Set<Replay> replays;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
+    private Set<Request> requests;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Provider provider;
+
 
 }

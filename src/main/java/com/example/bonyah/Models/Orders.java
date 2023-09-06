@@ -1,6 +1,7 @@
 package com.example.bonyah.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -40,4 +41,14 @@ public class Orders {
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime order_date;
+
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Product product;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "orders")
+    private Invoice invoice;
+
 }

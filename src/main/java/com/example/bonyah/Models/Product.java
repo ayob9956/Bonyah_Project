@@ -1,5 +1,6 @@
 package com.example.bonyah.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Setter
 @Getter
@@ -39,6 +42,17 @@ public class Product {
     @NotNull(message = "stock must be not null")
     @Column(columnDefinition = "integer not null")
     private Integer stock;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private Set<Replay> replays;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private Set<Orders> orders;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Provider provider;
 
 
 }

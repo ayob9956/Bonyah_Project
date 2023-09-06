@@ -1,5 +1,6 @@
 package com.example.bonyah.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -27,5 +28,14 @@ public class Replay {
     @Column(nullable = false, columnDefinition = "INT CHECK (rating >= 1 AND rating <=5)")
     private Integer rating;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Product product;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Service service;
 
 }

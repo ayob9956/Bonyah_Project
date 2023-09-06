@@ -1,5 +1,6 @@
 package com.example.bonyah.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -40,5 +41,16 @@ public class Request {
     @Column(columnDefinition = "varchar(15) not null default 'waiting' check(status = 'waiting' or status = 'confirm' or status = 'reject')")
     private String status;
 
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private Service service;
 
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private Customer customer;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "request")
+    private Invoice invoice;
 }

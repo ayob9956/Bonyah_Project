@@ -1,5 +1,6 @@
 package com.example.bonyah.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
@@ -30,5 +31,15 @@ public class Invoice {
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime invoice_date;
+
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private Request request;
+
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private Orders orders;
 
 }

@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Setter
 @Getter
@@ -48,4 +50,11 @@ public class Provider {
     @MapsId
     @JsonIgnore
     private User user;
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider")
+    private Set<Product> products;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider")
+    private Set<Service> services;
 }

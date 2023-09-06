@@ -1,5 +1,6 @@
 package com.example.bonyah.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -35,5 +36,10 @@ public class Complaint {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime complaint_date;
 
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Customer customer;
 
 }
