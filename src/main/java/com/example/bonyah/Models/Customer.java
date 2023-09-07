@@ -24,18 +24,14 @@ public class Customer {
     @Id
     private Integer id;
 
-    @NotEmpty(message = "name must be not null")
     @Column(columnDefinition = "varchar(25) not null unique")
     private String name;
 
 
-    @NotNull(message = "balance must be not null")
-    @Positive(message = "balance must be positive number")
     @Column(columnDefinition = "integer not null default 0")
     private Integer balance;
 
-    @NotEmpty(message = "name must be not null")
-    @Size(max = 10, message = "phone number must be 10 digits only")
+
     @Column(columnDefinition = "varchar(10) not null unique")
     private String phone;
 
