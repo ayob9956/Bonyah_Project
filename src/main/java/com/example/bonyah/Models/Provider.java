@@ -39,7 +39,10 @@ public class Provider {
     private Integer balance;
 
     @Column(columnDefinition = "varchar(30) not null")
-    private String Location;
+    private String location;
+
+    @Column(columnDefinition = "varchar(15) not null default 'waiting' check(status = 'waiting' or status = 'confirmed' or status = 'reject')")
+    private String status;
 
     @OneToOne
     @MapsId
