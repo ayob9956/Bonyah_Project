@@ -44,9 +44,7 @@ public class Customer {
     @JsonIgnore
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")
-    @PrimaryKeyJoinColumn
-    private Cart cart;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Request> requests;
@@ -57,5 +55,8 @@ public class Customer {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Orders> orders;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
+    private Set<Replay> replays;
 }
 

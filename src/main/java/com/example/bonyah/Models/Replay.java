@@ -27,7 +27,7 @@ public class Replay {
     @Column(columnDefinition = "varchar(50)")
     private String body;
 
-    @Column(nullable = false, columnDefinition = "INT CHECK (rating >= 1 AND rating <=5)")
+    @Column(columnDefinition = "int not null check(rating >= 1 AND rating <=5)")
     private Integer rating;
 
     @ManyToOne
@@ -39,5 +39,10 @@ public class Replay {
     @JsonIgnore
     @JoinColumn
     private Service service;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Customer customer;
 
 }
