@@ -9,7 +9,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Currency;
 
 @Entity
@@ -17,26 +22,22 @@ import java.util.Currency;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "username must be not null")
     @Column(columnDefinition = "varchar(25) not null unique")
     private String username;
 
 
-    @Email(message = "email must be not null")
     @Column(columnDefinition = "varchar(25) not null unique")
     private String email;
 
-    @NotEmpty(message = "password must be not null")
     @Column(columnDefinition = "varchar(200) not null")
     private String password;
 
-    @NotEmpty(message = "role must be not null")
-    @Pattern(regexp = "(ADMIN|CUSTOMER|PROVIDER)")
+
     @Column(columnDefinition = "varchar(10) not null check(role = 'ADMIN' or role = 'CUSTOMER' or role = 'PROVIDER' )")
     private String role;
 
@@ -48,4 +49,28 @@ public class User {
     @PrimaryKeyJoinColumn
     private Customer customer;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(this.role));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
