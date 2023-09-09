@@ -41,6 +41,9 @@ public class Provider {
     @Column(columnDefinition = "varchar(30) not null")
     private String location;
 
+    @Column(columnDefinition = "varchar(15) not null default 'waiting' check(status = 'waiting' or status = 'confirmed' or status = 'reject')")
+    private String status;
+
     @OneToOne
     @MapsId
     @JsonIgnore

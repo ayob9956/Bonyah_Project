@@ -1,5 +1,6 @@
 package com.example.bonyah.Repository;
 
+import com.example.bonyah.Models.Provider;
 import com.example.bonyah.Models.Service;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ public interface ServiceRepo extends JpaRepository<Service,Integer> {
     List<Service>findServicesByPrice(Integer price);
 
     List<Service>findServicesByCategoryAndPrice(String category,Integer price);
+
 
 
 }

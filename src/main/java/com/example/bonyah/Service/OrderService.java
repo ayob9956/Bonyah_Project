@@ -27,8 +27,8 @@ public class OrderService {
         if (order1 == null) {
             throw new ApiException("id not founded");
         }
+        order1.setStatus("waiting");
         order1.setQuantity(order.getQuantity());
-        order1.setStatus(order.getStatus());
         order1.setTotal(order.getTotal());
         order1.setLocation(order.getLocation());
 
