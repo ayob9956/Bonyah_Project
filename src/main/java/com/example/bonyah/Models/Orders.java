@@ -40,7 +40,7 @@ public class Orders {
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime order_date;
+    private LocalDateTime order_date = LocalDateTime.now();
 
 
     @ManyToOne
