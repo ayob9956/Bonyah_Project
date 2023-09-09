@@ -37,5 +37,5 @@ public class ProviderDTO {
     private String phone;
 
     @NotEmpty(message = "location record must be not null")
-    private String Location;
+    private String location;
 }
