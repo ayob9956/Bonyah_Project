@@ -3,6 +3,7 @@ package com.example.bonyah.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class Orders {
 
 
     @NotNull(message = "quantity must be not null")
+    @Min(value = 1,message = "sorry! quantity must be greater than 0")
     @Column(columnDefinition = "integer not null")
     private Integer quantity;
 

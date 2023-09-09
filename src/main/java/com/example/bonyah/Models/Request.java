@@ -23,6 +23,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     @NotEmpty(message = "description must be not null")
     @Column(columnDefinition = "varchar(150) not null")
     private String description;

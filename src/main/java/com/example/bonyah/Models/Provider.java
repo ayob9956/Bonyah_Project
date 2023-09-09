@@ -39,7 +39,7 @@ public class Provider {
     private Integer balance;
 
     @Column(columnDefinition = "varchar(30) not null")
-    private String Location;
+    private String location;
 
     @OneToOne
     @MapsId

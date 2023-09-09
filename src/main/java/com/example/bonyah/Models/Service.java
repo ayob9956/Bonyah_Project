@@ -34,6 +34,10 @@ public class Service {
     @Column(columnDefinition = "varchar(150) not null")
     private String description;
 
+    @NotEmpty(message = "category must be not null")
+    @Column(columnDefinition = "varchar(25) not null")
+    private String category;
+
     @NotNull(message = "price must be not null")
     @Positive(message = "price must be positive number")
     @Column(columnDefinition = "integer not null")
