@@ -72,9 +72,7 @@ public class ProviderService {
     public void addProduct(User user, Product product) {
         Provider provider = user.getProvider();
 
-        if (user == null) {
-            throw new ApiException("Provider is not found");
-        }
+
         if (product == null) {
             throw new ApiException("Product is not found");
         }

@@ -2,8 +2,7 @@ package com.example.bonyah.Controller;
 
 import com.example.bonyah.Api.ApiResponse;
 import com.example.bonyah.DTO.CustomerDTO;
-import com.example.bonyah.Models.Orders;
-import com.example.bonyah.Models.User;
+import com.example.bonyah.Models.*;
 import com.example.bonyah.Service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ public class CustomerController {
         customerService.deleteCustomer(user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("customer deleted"));
     }
-    @GetMapping("/order/filter-category/{category}")
+        @GetMapping("/order/filter-category/{category}")
     public ResponseEntity findProductByCategory(@PathVariable String category){
 
         return ResponseEntity.status(200).body(customerService.findProductByCategory(category));
@@ -63,6 +62,48 @@ public class CustomerController {
 
         return ResponseEntity.status(200).body(customerService.findProviderByName(name));
     }
+    @GetMapping("/get-orders")
+    public ResponseEntity getMyOrders(@AuthenticationPrincipal User user){
+
+        return ResponseEntity.status(200).body(customerService.getMyOrders(user.getId()));
+    }
+    @GetMapping("/get-request")
+    public ResponseEntity getRequest(@AuthenticationPrincipal User user){
+
+        return ResponseEntity.status(200).body(customerService.getRequest(user.getId()));
+    }
+    @PostMapping("/add-order/{product_id}")
+    public ResponseEntity sendOrder(@AuthenticationPrincipal User user, @PathVariable Integer product_id, @RequestBody @Valid Orders orders){
+        customerService.sendOrder(user.getId(),product_id,orders);
+        return ResponseEntity.status(200).body(new ApiResponse("order added"));
+    }
+    @PostMapping("/add-request/{serviceId}")
+    public ResponseEntity sendRequest(@AuthenticationPrincipal User user, @PathVariable Integer serviceId, @RequestBody @Valid Request request){
+        customerService.sendRequest(user.getId(),serviceId,request);
+        return ResponseEntity.status(200).body(new ApiResponse("request added"));
+    }
+    @PutMapping("/update-order/{order_id}")
+    public ResponseEntity UpdateOrder(@AuthenticationPrincipal User user,@PathVariable Integer order_id,@RequestBody @Valid Orders orders){
+        customerService.UpdateOrder(user.getId(),order_id,orders);
+        return ResponseEntity.status(200).body(new ApiResponse("order updated"));
+    }
+    @PutMapping("/update-request/{request_id}")
+    public ResponseEntity UpdateRequest(@AuthenticationPrincipal User user,@PathVariable Integer request_id,@RequestBody @Valid Request request){
+        customerService.UpdateRequest(user.getId(),request_id,request);
+        return ResponseEntity.status(200).body(new ApiResponse("request updated"));
+    }
+    @DeleteMapping("/delete-order/{order_id}")
+    public ResponseEntity deleteOrders(@AuthenticationPrincipal User user,@PathVariable Integer order_id){
+        customerService.deleteOrders(user.getId(),order_id);
+        return ResponseEntity.status(200).body(new ApiResponse("order deleted"));
+    }
+    @DeleteMapping("/delete-request/{request_id}")
+    public ResponseEntity deleteRequest(@AuthenticationPrincipal User user,@PathVariable Integer request_id){
+        customerService.deleteRequest(user.getId(),request_id);
+        return ResponseEntity.status(200).body(new ApiResponse("request deleted"));
+    }
+
+
 
 
 
