@@ -1,9 +1,9 @@
-package com.example.bonyah.Service;
+package com.example.Bonyah.Service;
 
-import com.example.bonyah.Api.ApiException;
-import com.example.bonyah.DTO.CustomerDTO;
-import com.example.bonyah.Models.*;
-import com.example.bonyah.Repository.*;
+import com.example.Bonyah.Api.ApiException;
+import com.example.Bonyah.DTO.CustomerDTO;
+import com.example.Bonyah.Models.*;
+import com.example.Bonyah.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ public class CustomerService {
             authRepo.save(user1);
         }
         else{
-        throw new ApiException("user not found");
+            throw new ApiException("user not found");
         }
 
 
@@ -90,40 +90,40 @@ public class CustomerService {
         }
         return products;
     }
-    public List<com.example.bonyah.Models.Service>findServicesByCategory(String category){
-        List<com.example.bonyah.Models.Service> services = serviceRepo.findServicesByCategory(category);
+    public List<com.example.Bonyah.Models.Service>findServicesByCategory(String category){
+        List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByCategory(category);
         if (services==null){
             throw new ApiException("there are no services have category "+category);
         }
         return services;
     }
-    public List<com.example.bonyah.Models.Service>findServicesByPrice(Integer price){
-        List<com.example.bonyah.Models.Service> services = serviceRepo.findServicesByPrice(price);
+    public List<com.example.Bonyah.Models.Service>findServicesByPrice(Integer price){
+        List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByPrice(price);
         if (services==null){
             throw new ApiException("there are no services have price "+price);
         }
         return services;
     }
-    public List<com.example.bonyah.Models.Service>findServicesByCategoryAndPrice(String category,Integer price){
-        List<com.example.bonyah.Models.Service> services = serviceRepo.findServicesByCategoryAndPrice(category,price);
+    public List<com.example.Bonyah.Models.Service>findServicesByCategoryAndPrice(String category, Integer price){
+        List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByCategoryAndPrice(category,price);
         if (services==null){
             throw new ApiException("there are no services have category " + category +" and price " + price);
         }
         return services;
     }
-    public List<Orders> getMyOrders(Integer customer_id){
-        Customer customer = customerRepo.findCustomerById(customer_id);
-        return orderRepo.findOrdersByCustomer(customer);
+    public List<Orders> getMyOrders(Integer user_id) {
+        User user = authRepo.findUserById(user_id);
+        return orderRepo.findOrdersByCustomer(user.getCustomer());
     }
-    public void sendOrder(Integer customer_id,Integer product_id, Orders orders){
+    public void sendOrder(Integer user_id,Integer product_id, Orders orders){
         Product product = productRepo.findProductById(product_id);
 
         if (product == null){
             throw new ApiException("product not found");
         }
 
-        Customer customer=customerRepo.findCustomerById(customer_id);
-        orders.setCustomer(customer);
+        User user=authRepo.findUserById(user_id);
+        orders.setCustomer(user.getCustomer());
         orders.setProduct(product);
 
         orders.setTotal(orders.getProduct().getPrice() * orders.getQuantity());
@@ -131,9 +131,9 @@ public class CustomerService {
         orderRepo.save(orders);
 
     }
-    public void UpdateOrder(Integer customer_id,Integer order_id,Orders orders){
+    public void UpdateOrder(Integer user_id,Integer order_id,Orders orders){
         Orders orders1 =orderRepo.findOrdersById(order_id);
-        if (orders1!=null&&orders1.getCustomer().getId().equals(customer_id)){
+        if (orders1!=null&&orders1.getCustomer().getId().equals(user_id)){
             orders1.setQuantity(orders.getQuantity());
             orders1.setStatus("waiting");
             orders1.setTotal((orders.getProduct().getPrice() * orders.getQuantity()));
@@ -146,44 +146,44 @@ public class CustomerService {
             throw new ApiException("order not found");
         }
     }
-    public void deleteOrders(Integer customer_id,Integer order_id){
+    public void deleteOrders(Integer user_id,Integer order_id){
         Orders orders1 =orderRepo.findOrdersById(order_id);
 
         if (orders1 == null){
             throw new ApiException("order not found");
         }
 
-        if (orders1.getCustomer().getId().equals(customer_id)){
+        if (orders1.getCustomer().getId().equals(user_id)){
             orderRepo.delete(orders1);
         }else {
             throw new ApiException("you are not allowed to delete this order");
         }
 
     }
-    public List<Request> getRequest(Integer customer_id){
-        Customer customer = customerRepo.findCustomerById(customer_id);
-        return requestRepo.findRequestCustomer(customer);
+    public List<Request> getRequest(Integer user_id){
+        User user = authRepo.findUserById(user_id);
+        return requestRepo.findRequestByCustomer(user.getCustomer());
     }
-    public void sendRequest(Integer customer_id,Integer service_id, Request request){
-        com.example.bonyah.Models.Service service = serviceRepo.findServiceById(service_id);
+    public void sendRequest(Integer user_id,Integer service_id, Request request){
+        com.example.Bonyah.Models.Service service = serviceRepo.findServiceById(service_id);
 
         if (service == null){
             throw new ApiException("service not found");
         }
 
-        Customer customer=customerRepo.findCustomerById(customer_id);
-        request.setCustomer(customer);
+        User user=authRepo.findUserById(user_id);
+        request.setCustomer(user.getCustomer());
         request.setService(service);
         request.setStatus("waiting");
         requestRepo.save(request);
 
     }
-    public void UpdateRequest(Integer customer_id,Integer request_id,Request request){
+    public void UpdateRequest(Integer user_id,Integer request_id,Request request){
         Request request1 =requestRepo.findRequestById(request_id);
-        if (request1!=null&&request1.getCustomer().getId().equals(customer_id)){
-                request1.setCustomer_price(request.getCustomer_price());
-                request1.setDescription(request.getDescription());
-                request1.setLocation(request.getLocation());
+        if (request1!=null&&request1.getCustomer().getId().equals(user_id)){
+            request1.setCustomer_price(request.getCustomer_price());
+            request1.setDescription(request.getDescription());
+            request1.setLocation(request.getLocation());
 
 
         }
@@ -192,14 +192,14 @@ public class CustomerService {
         }
     }
 
-    public void deleteRequest(Integer customer_id,Integer request_id){
+    public void deleteRequest(Integer user_id,Integer request_id){
         Request request =requestRepo.findRequestById(request_id);
 
         if (request == null){
             throw new ApiException("Request not found");
         }
 
-        if (request.getCustomer().getId().equals(customer_id)){
+        if (request.getCustomer().getId().equals(user_id)){
             requestRepo.delete(request);
         }else {
             throw new ApiException("you are not allowed to delete this request");
