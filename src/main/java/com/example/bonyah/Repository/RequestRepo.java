@@ -1,5 +1,6 @@
 package com.example.bonyah.Repository;
 
+import com.example.bonyah.Models.Customer;
 import com.example.bonyah.Models.Orders;
 import com.example.bonyah.Models.Provider;
 import com.example.bonyah.Models.Request;
@@ -18,4 +19,6 @@ public interface RequestRepo extends JpaRepository<Request,Integer> {
     Request findByProvider(Provider provider,Integer id);
     @Query("SELECT o FROM Orders o WHERE o.product.provider = ?1")
     List<Request> findRequestByProvider(Provider provider);
+
+    List<Request> findRequestCustomer(Customer customer);
 }

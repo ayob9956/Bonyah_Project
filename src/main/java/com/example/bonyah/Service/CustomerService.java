@@ -162,7 +162,7 @@ public class CustomerService {
     }
     public List<Request> getRequest(Integer customer_id){
         Customer customer = customerRepo.findCustomerById(customer_id);
-        return requestRepo.findRequestByCustomer(customer);
+        return requestRepo.findRequestCustomer(customer);
     }
     public void sendRequest(Integer customer_id,Integer service_id, Request request){
         com.example.bonyah.Models.Service service = serviceRepo.findServiceById(service_id);
