@@ -1,11 +1,13 @@
 package com.example.Bonyah.Controller;
 
 
+import com.example.Bonyah.Api.ApiResponse;
 import com.example.Bonyah.Models.Product;
 import com.example.Bonyah.Models.Provider;
 import com.example.Bonyah.Models.Service;
 import com.example.Bonyah.Models.User;
 import com.example.Bonyah.Service.ProviderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class ProviderController {
     private final ProviderService providerService;
 
-    @GetMapping("/get")
-    public ResponseEntity getProvider(@AuthenticationPrincipal User user) {
+    @GetMapping("/get/provider")
+    public ResponseEntity getProviderInformtion(@AuthenticationPrincipal User user) {
 
         return ResponseEntity.status(200).body(providerService.getProviderInfrometions(user));
     }
@@ -44,6 +46,20 @@ public class ProviderController {
 
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity updateProduct(@PathVariable Integer id,@RequestBody @Valid Product product,@AuthenticationPrincipal User user){
+        providerService.updateProduct(id,product,user);
+        return ResponseEntity.status(200).body(new ApiResponse("Product updated"));
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteProduct(@PathVariable Integer id,@AuthenticationPrincipal User user) {
+        providerService.deleteProduct(id,user);
+        return ResponseEntity.status(200).body(new ApiResponse("Product deleted"));
+
+    }
+
     @PostMapping("/add/service")
     public ResponseEntity addproducts(@AuthenticationPrincipal User user, @RequestBody Service service){
 
@@ -57,6 +73,18 @@ public class ProviderController {
         return ResponseEntity.status(200).body( providerService.getMyOrders(user));
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity updateService(@PathVariable Integer id,@RequestBody @Valid Service service,@AuthenticationPrincipal User user) throws Exception {
+        providerService.updateService(id,service,user);
+        return ResponseEntity.status(200).body(new ApiResponse("Service updated"));
+
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteService(@PathVariable Integer id,@AuthenticationPrincipal User user){
+        providerService.deleteService(id,user);
+        return ResponseEntity.status(200).body(new ApiResponse("Service deleted"));
+
+    }
 
     @GetMapping("/get/requests")
     public ResponseEntity getRequestProvider(@AuthenticationPrincipal User user){

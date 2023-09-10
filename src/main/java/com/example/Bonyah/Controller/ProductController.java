@@ -24,16 +24,6 @@ public class ProductController {
         productService.addProduct(product);
         return ResponseEntity.status(200).body(new ApiResponse("Product added"));
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity updateProduct(@PathVariable Integer id,@RequestBody @Valid Product product){
-        productService.updateProduct(id,product);
-        return ResponseEntity.status(200).body(new ApiResponse("Product updated"));
 
-    }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteProduct(@PathVariable Integer id){
-        productService.deleteProduct(id);
-        return ResponseEntity.status(200).body(new ApiResponse("Product deleted"));
 
-    }
 }

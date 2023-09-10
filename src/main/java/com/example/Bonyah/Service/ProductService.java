@@ -18,25 +18,6 @@ public class ProductService {
     public void addProduct(Product product){
         productRepo.save(product);
     }
-    public void updateProduct(Integer id,Product product){
-        Product product1=productRepo.findProductById(id);
-        if (product1==null){
-            throw new ApiException("id not founded");
-        }
-        product1.setName(product.getName());
-        product1.setPrice(product.getPrice());
-        product1.setCategory(product.getCategory());
-        product1.setDescription(product.getDescription());
-        product1.setStock(product.getStock());
-        productRepo.save(product1);
 
-    }
-    public void deleteProduct(Integer id){
-        Product product = productRepo.findProductById(id);
-        if (product==null){
-            throw new ApiException("id not founded");
 
-        }
-        productRepo.delete(product);
-    }
 }

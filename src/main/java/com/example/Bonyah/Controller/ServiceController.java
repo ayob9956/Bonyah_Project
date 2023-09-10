@@ -24,16 +24,5 @@ public class ServiceController {
         serviceServices.addService(service);
         return ResponseEntity.status(200).body(new ApiResponse("Service added"));
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity updateService(@PathVariable Integer id,@RequestBody @Valid Service service){
-        serviceServices.updateService(id,service);
-        return ResponseEntity.status(200).body(new ApiResponse("Service updated"));
 
-    }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteService(@PathVariable Integer id){
-        serviceServices.deleteService(id);
-        return ResponseEntity.status(200).body(new ApiResponse("Service deleted"));
-
-    }
 }

@@ -81,6 +81,33 @@ public class ProviderService {
         product.setProvider(provider);
         productRepo.save(product);
     }
+    public void updateProduct(Integer id,Product product,User user){
+
+        Provider provider = user.getProvider();
+        Product product1=productRepo.findProductById(id);
+
+
+        if (product1.getProvider() != provider){
+            throw new ApiException("Provider is not matching with product");
+        }
+
+        product1.setName(product.getName());
+        product1.setPrice(product.getPrice());
+        product1.setCategory(product.getCategory());
+        product1.setDescription(product.getDescription());
+        product1.setStock(product.getStock());
+        productRepo.save(product1);
+
+    }
+
+    public void deleteProduct(Integer id,User user) {
+        Provider provider = user.getProvider();
+        Product product = productRepo.findProductById(id);
+       if (product.getProvider()!= provider){
+           throw new ApiException("Product not matching with provider");
+       }
+        productRepo.delete(product);
+    }
 
 
     public void addService(User user, com.example.Bonyah.Models.Service service) {
@@ -98,6 +125,28 @@ public class ProviderService {
         service.setProvider(provider);
         serviceRepo.save(service);
 
+    }
+
+
+    public void updateService(Integer id, com.example.Bonyah.Models.Service service,User user) {
+        Provider provider = user.getProvider();
+        com.example.Bonyah.Models.Service service1 = serviceRepo.findServiceById(id);
+      if (service1.getProvider() != provider) {
+          throw new ApiException("Service Not matching provider");
+      }
+        service1.setName(service.getName());
+        service1.setDescription(service.getDescription());
+        service1.setPrice(service.getPrice());
+        serviceRepo.save(service1);
+    }
+
+    public void deleteService(Integer id,User user){
+        com.example.Bonyah.Models.Service service = serviceRepo.findServiceById(id);
+        Provider provider = service.getProvider();
+        if (service.getProvider()!=provider){
+            throw new ApiException("Service Not matching provider");
+        }
+        serviceRepo.delete(service);
     }
 
 
