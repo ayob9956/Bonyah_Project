@@ -34,7 +34,7 @@ public class Complaint {
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime complaint_date;
+    private LocalDateTime complaint_date = LocalDateTime.now();
 
 
     @ManyToOne

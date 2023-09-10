@@ -50,8 +50,10 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Orders> orders;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Replay> replays;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private Set<Invoice> invoices;
 }
 

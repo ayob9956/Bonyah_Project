@@ -26,7 +26,7 @@ public class RequestService {
         if (request1 == null) {
             throw new ApiException("id not founded");
         }
-        request1.setDescription(request.getDescription());
+        request1.setCustomer_description(request.getCustomer_description());
         request1.setCustomer_price(request.getCustomer_price());
         request1.setProvider_price(request.getProvider_price());
         request1.setLocation(request.getLocation());
