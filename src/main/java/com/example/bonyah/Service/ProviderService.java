@@ -3,32 +3,31 @@ package com.example.bonyah.Service;
 
 import com.example.bonyah.Api.ApiException;
 import com.example.bonyah.DTO.RejectRequestDTO;
-import com.example.bonyah.Models.*;
 
-import com.example.bonyah.Repository.*;
+
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.bonyah.Models.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Service
 @RequiredArgsConstructor
 public class ProviderService {
 
-    private final ProviderRepo providerRepo;
-    private final AuthRepo authRepo;
-    private final ProductRepo productRepo;
-    private final ServiceRepo serviceRepo;
-    private final OrderRepo orderRepo;
-    private final RequestRepo requestRepo;
-    private final InvoiceRepo invoiceRepo;
+    private final com.example.bonyah.Repository.ProviderRepo providerRepo;
+    private final com.example.bonyah.Repository.AuthRepo authRepo;
+    private final com.example.bonyah.Repository.ProductRepo productRepo;
+    private final com.example.bonyah.Repository.ServiceRepo serviceRepo;
+    private final com.example.bonyah.Repository.OrderRepo orderRepo;
+    private final com.example.bonyah.Repository.RequestRepo requestRepo;
+    private final com.example.bonyah.Repository.InvoiceRepo invoiceRepo;
 
 
-    public Provider getProviderInfo(User user) {
-        Provider provider = providerRepo.findProviderById(user.getId());
+    public com.example.bonyah.Models.Provider getProviderInfo(com.example.bonyah.Models.User user) {
+        com.example.bonyah.Models.Provider provider = providerRepo.findProviderById(user.getId());
         if (provider == null) {
             throw new ApiException("Provider is not found");
         }
@@ -38,8 +37,8 @@ public class ProviderService {
         return provider;
     }
 
-    public void updateUser(User user, Provider provider) {
-        User user1 = providerRepo.findProviderById(user.getId()).getUser();
+    public void updateUser(com.example.bonyah.Models.User user, com.example.bonyah.Models.Provider provider) {
+        com.example.bonyah.Models.User user1 = providerRepo.findProviderById(user.getId()).getUser();
 
         if (user1 == null) {
             throw new ApiException("Provider is not found");
@@ -47,7 +46,7 @@ public class ProviderService {
         if (!user1.getId().equals(user.getId())) {
             throw new ApiException(" not matching provider");
         }
-        Provider provider1 = user1.getProvider();
+        com.example.bonyah.Models.Provider provider1 = user1.getProvider();
 
         provider1.setCommercialRecord(provider.getCommercialRecord());
         provider1.setName(provider.getName());
