@@ -16,57 +16,69 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
+
     @GetMapping("/get")
-    public ResponseEntity getMyCustomer(@AuthenticationPrincipal User user){
+    public ResponseEntity getMyCustomer(@AuthenticationPrincipal User user) {
         return ResponseEntity.status(200).body(customerService.getMyCustomer(user.getId()));
     }
+
     @PutMapping("/update")
-    public ResponseEntity updateCustomer(@AuthenticationPrincipal User user, @RequestBody @Valid CustomerDTO customerDTO){
-        customerService.updateCustomer(user.getId(),customerDTO);
+    public ResponseEntity updateCustomer(@AuthenticationPrincipal User user, @RequestBody @Valid CustomerDTO customerDTO) {
+        customerService.updateCustomer(user.getId(), customerDTO);
         return ResponseEntity.status(200).body(new ApiResponse("customer updated"));
     }
+
     @DeleteMapping("/delete")
-    public ResponseEntity deleteCustomer(@AuthenticationPrincipal User user){
+    public ResponseEntity deleteCustomer(@AuthenticationPrincipal User user) {
         customerService.deleteCustomer(user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("customer deleted"));
     }
+
     @GetMapping("/order/filter-category/{category}")
-    public ResponseEntity findProductByCategory(@PathVariable String category){
+    public ResponseEntity findProductByCategory(@PathVariable String category) {
 
         return ResponseEntity.status(200).body(customerService.findProductByCategory(category));
     }
+
     @GetMapping("/order/filter-category-price/{category}/{price}")
-    public ResponseEntity findProductByCategoryAndPrice(@PathVariable String category,@PathVariable Integer price){
-        return ResponseEntity.status(200).body(customerService.findProductByCategoryAndPrice(category,price));
+    public ResponseEntity findProductByCategoryAndPrice(@PathVariable String category, @PathVariable Integer price) {
+        return ResponseEntity.status(200).body(customerService.findProductByCategoryAndPrice(category, price));
     }
+
     @GetMapping("/order/filter-price/{price}")
-    public ResponseEntity findProductByPrice(@PathVariable Integer price){
+    public ResponseEntity findProductByPrice(@PathVariable Integer price) {
 
         return ResponseEntity.status(200).body(customerService.findProductByPrice(price));
     }
+
     @GetMapping("/service/filter-category/{category}")
-    public ResponseEntity findServiceByCategory(@PathVariable String category){
+    public ResponseEntity findServiceByCategory(@PathVariable String category) {
 
         return ResponseEntity.status(200).body(customerService.findServicesByCategory(category));
     }
+
     @GetMapping("/service/filter-category-price/{category}/{price}")
-    public ResponseEntity findServiceByCategoryAndPrice(@PathVariable String category,@PathVariable Integer price){
-        return ResponseEntity.status(200).body(customerService.findServicesByCategoryAndPrice(category,price));
+    public ResponseEntity findServiceByCategoryAndPrice(@PathVariable String category, @PathVariable Integer price) {
+        return ResponseEntity.status(200).body(customerService.findServicesByCategoryAndPrice(category, price));
     }
+
     @GetMapping("/service/filter-price/{price}")
-    public ResponseEntity findServiceByPrice(@PathVariable Integer price){
+    public ResponseEntity findServiceByPrice(@PathVariable Integer price) {
 
         return ResponseEntity.status(200).body(customerService.findServicesByPrice(price));
     }
+
     @GetMapping("/filter-provider/{name}")
-    public ResponseEntity findProviderByName(@PathVariable String name){
+    public ResponseEntity findProviderByName(@PathVariable String name) {
 
         return ResponseEntity.status(200).body(customerService.findProviderByName(name));
     }
 
 
-
-
+    @GetMapping("/my-invoices")
+    public ResponseEntity getMyInvoices(@AuthenticationPrincipal User user) {
+        return ResponseEntity.status(200).body(customerService.getMyInvoices(user.getId()));
+    }
 
 
 }

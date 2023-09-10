@@ -2,6 +2,7 @@ package com.example.bonyah.Service;
 
 
 import com.example.bonyah.Api.ApiException;
+import com.example.bonyah.DTO.RejectRequestDTO;
 import com.example.bonyah.Models.*;
 
 import com.example.bonyah.Repository.*;
@@ -21,12 +22,12 @@ public class ProviderService {
     private final AuthRepo authRepo;
     private final ProductRepo productRepo;
     private final ServiceRepo serviceRepo;
-    private final OrderService orderService;
     private final OrderRepo orderRepo;
     private final RequestRepo requestRepo;
+    private final InvoiceRepo invoiceRepo;
 
 
-    public Provider getProviderInfrometions(User user) {
+    public Provider getProviderInfo(User user) {
         Provider provider = providerRepo.findProviderById(user.getId());
         if (provider == null) {
             throw new ApiException("Provider is not found");
@@ -40,14 +41,13 @@ public class ProviderService {
     public void updateUser(User user, Provider provider) {
         User user1 = providerRepo.findProviderById(user.getId()).getUser();
 
-        Provider provider1 = user1.getProvider();
         if (user1 == null) {
             throw new ApiException("Provider is not found");
         }
         if (!user1.getId().equals(user.getId())) {
             throw new ApiException(" not matching provider");
         }
-
+        Provider provider1 = user1.getProvider();
 
         provider1.setCommercialRecord(provider.getCommercialRecord());
         provider1.setName(provider.getName());
@@ -72,12 +72,6 @@ public class ProviderService {
     public void addProduct(User user, Product product) {
         Provider provider = user.getProvider();
 
-        if (user == null) {
-            throw new ApiException("Provider is not found");
-        }
-        if (product == null) {
-            throw new ApiException("Product is not found");
-        }
 
         if (provider == null) {
             throw new ApiException("Provider is not found");
@@ -119,7 +113,6 @@ public class ProviderService {
     }
 
 
-
     public List<Request> getRequestByProvider(User user) {
 
         Provider provider = user.getProvider();
@@ -135,34 +128,41 @@ public class ProviderService {
 
 
     public void confirmOrders(User user, Integer id) {
-        Provider provider = user.getProvider();
         Orders order = orderRepo.findOrdersById(id);
-        //orderRepo.findOrdersByProvider(provider, id);
         if (order == null) {
             throw new ApiException("Orders Null");
+        } else if (!order.getProduct().getProvider().getId().equals(user.getId())) {
+            throw new ApiException("you're not allow to confirm this order");
         }
-//        if (!orders.getId().equals(id)){
-//            throw new ApiException("Order Id not found");
-//        }
+        Customer customer = order.getCustomer();
+
         order.setStatus("confirm");
+
+        Invoice invoice = new Invoice(null, order.getTotal(), "unpaid", null, null, order, customer);
+
         orderRepo.save(order);
+        invoiceRepo.save(invoice);
 
     }
 
 
-
     public void confirmRequest(User user, Integer id) {
-        Provider provider = user.getProvider();
-        Request request =requestRepo.findRequestById(id);
-//                requestRepo.findByProvider(provider,id);
+
+        Request request = requestRepo.findRequestById(id);
         if (request == null) {
             throw new ApiException("Request Null");
+        } else if (!request.getService().getProvider().getId().equals(user.getId())) {
+            throw new ApiException("you're not allow to confirm this request");
         }
-//        if (!orders.getId().equals(id)){
-//            throw new ApiException("Order Id not found");
-//        }
+
+        Customer customer = request.getCustomer();
         request.setStatus("confirm");
+        request.setProvider_price(request.getCustomer_price());
+        Invoice invoice = new Invoice(null, request.getCustomer_price(), "unpaid", null, request, null, customer);
+
         requestRepo.save(request);
+        invoiceRepo.save(invoice);
+
     }
 
 
@@ -172,28 +172,20 @@ public class ProviderService {
         if (order == null) {
             throw new ApiException("Orders Null");
         }
-//        if (!orders.getId().equals(id)){
-//            throw new ApiException("Order Id not found");
-//        }
         order.setStatus("reject");
         orderRepo.save(order);
 
     }
 
 
-
-
-
-    public void rejectRequest(User user, Integer id) {
+    public void rejectRequest(User user, Integer id, RejectRequestDTO rejectRequestDTO) {
         Provider provider = user.getProvider();
         Request request = requestRepo.findRequestById(id);
-//                requestRepo.findByProvider(provider, id);
         if (request == null) {
-            throw new ApiException("Orders Null");
+            throw new ApiException("request doesn't exist");
         }
-//        if (!orders.getId().equals(id)){
-//            throw new ApiException("Order Id not found");
-//        }
+        request.setProvider_price(rejectRequestDTO.getProvider_price());
+        request.setProvider_description(rejectRequestDTO.getProvider_description());
         request.setStatus("reject");
         requestRepo.save(request);
 

@@ -30,7 +30,7 @@ public class Invoice {
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime invoice_date;
+    private LocalDateTime invoice_date = LocalDateTime.now();
 
     @OneToOne
     @MapsId
@@ -42,4 +42,9 @@ public class Invoice {
     @JsonIgnore
     private Orders orders;
 
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Customer customer;
 }

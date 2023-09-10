@@ -26,7 +26,7 @@ public class Request {
 
     @NotEmpty(message = "description must be not null")
     @Column(columnDefinition = "varchar(150) not null")
-    private String description;
+    private String customer_description;
 
 
     @NotNull(message = "price must be not null")
@@ -37,6 +37,10 @@ public class Request {
 
     @Column(columnDefinition = "integer")
     private Integer provider_price;
+
+    @Column(columnDefinition = "varchar(150)")
+    private String provider_description;
+
 
     @NotEmpty(message = "location must be not null")
     @Column(columnDefinition = "varchar(30) not null")

@@ -28,7 +28,7 @@ public class AuthServices {
         User user = new User(null, customerDTO.getUsername(), customerDTO.getEmail(), customerDTO.getPassword(), "CUSTOMER", null, null);
 
 
-        Customer customer = new Customer(null, customerDTO.getName(), 0, customerDTO.getPhone(), user, null, null, null, null);
+        Customer customer = new Customer(null, customerDTO.getName(), 0, customerDTO.getPhone(), user, null, null, null, null, null);
 
         customerRepo.save(customer);
 
