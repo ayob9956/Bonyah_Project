@@ -6,6 +6,7 @@ import com.example.Bonyah.DTO.RejectRequestDTO;
 
 import com.example.Bonyah.Models.*;
 import com.example.Bonyah.Repository.*;
+import com.example.Bonyah.Models.Provider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class ProviderService {
     private final InvoiceRepo invoiceRepo;
 
 
-    public com.example.Bonyah.Models.Provider getProviderInfo(User user) {
+    public Provider getProviderInfo(User user) {
         Provider provider = providerRepo.findProviderById(user.getId());
         if (provider == null) {
             throw new ApiException("Provider is not found");
@@ -106,6 +107,7 @@ public class ProviderService {
         }
         productRepo.delete(product);
     }
+
 
 
     public void addService(User user, com.example.Bonyah.Models.Service service) {

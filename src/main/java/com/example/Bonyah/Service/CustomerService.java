@@ -114,12 +114,10 @@ public class CustomerService {
         return services;
     }
 
-
-
-    public List<com.example.Bonyah.Models.Service>findServicesByCategoryAndPrice(String category, Integer price){
-        List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByCategoryAndPrice(category,price);
-        if (services==null){
-            throw new ApiException("there are no services have category " + category +" and price " + price);
+    public List<com.example.Bonyah.Models.Service> findServicesByCategoryAndPrice(String category, Integer price) {
+        List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByCategoryAndPrice(category, price);
+        if (services == null) {
+            throw new ApiException("there are no services have category " + category + " and price " + price);
         }
         return services;
     }
