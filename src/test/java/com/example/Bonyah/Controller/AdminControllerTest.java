@@ -1,6 +1,7 @@
 package com.example.Bonyah.Controller;
 
 import com.example.Bonyah.Api.ApiResponse;
+import com.example.Bonyah.Models.Complaint;
 import com.example.Bonyah.Models.User;
 import com.example.Bonyah.Service.AdminService;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +39,10 @@ class AdminControllerTest {
     User user;
     ApiResponse apiResponse;
     List<User>users,userList;
+    Complaint complaint1;
+    Complaint complaint2;
+    Complaint complaint3;
+    List<Complaint>complaints,complaintList;
 
 
     @BeforeEach
@@ -50,6 +56,16 @@ class AdminControllerTest {
         users.add(user3);
         users=Arrays.asList(user1);
         userList=Arrays.asList(user2);
+        complaint1 = new Complaint(1,"test","test","waiting", LocalDateTime.now(),null);
+        complaint2 = new Complaint(2,"test","test","waiting", LocalDateTime.now(),null);
+        complaint3 = new Complaint(3,"test","test","waiting", LocalDateTime.now(),null);
+        complaints = new ArrayList<>();
+        complaints.add(complaint1);
+        complaints.add(complaint2);
+        complaints.add(complaint3);
+        complaints=Arrays.asList(complaint1);
+        complaintList=Arrays.asList(complaint2);
+
 
 
     }
@@ -78,6 +94,12 @@ class AdminControllerTest {
     void getUsersByRole() throws Exception{
         Mockito.when(adminService.getUsersByRole(user1.getRole())).thenReturn(users);
         mockMvc.perform(get("/api/v1/admin/get-users-role/{role}",user1.getRole()))
+                .andExpect(status().isOk());
+    }
+    @Test
+    void getAllComplaints() throws Exception{
+        Mockito.when(adminService.getAllComplaint()).thenReturn(complaints);
+        mockMvc.perform(get("/api/v1/admin/get-complaints"))
                 .andExpect(status().isOk());
     }
 
