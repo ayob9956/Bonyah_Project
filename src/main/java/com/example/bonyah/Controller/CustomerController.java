@@ -1,9 +1,11 @@
-package com.example.bonyah.Controller;
+package com.example.Bonyah.Controller;
 
-import com.example.bonyah.Api.ApiResponse;
-import com.example.bonyah.DTO.CustomerDTO;
-import com.example.bonyah.Models.*;
-import com.example.bonyah.Service.CustomerService;
+import com.example.Bonyah.Api.ApiResponse;
+import com.example.Bonyah.DTO.CustomerDTO;
+import com.example.Bonyah.Models.Orders;
+import com.example.Bonyah.Models.User;
+import com.example.Bonyah.Models.*;
+import com.example.Bonyah.Service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,7 @@ public class CustomerController {
         customerService.deleteCustomer(user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("customer deleted"));
     }
+
 
     @GetMapping("/order/filter-category/{category}")
     public ResponseEntity findProductByCategory(@PathVariable String category) {

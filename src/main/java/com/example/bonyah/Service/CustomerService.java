@@ -1,9 +1,9 @@
-package com.example.bonyah.Service;
+package com.example.Bonyah.Service;
 
-import com.example.bonyah.Api.ApiException;
-import com.example.bonyah.DTO.CustomerDTO;
-import com.example.bonyah.Models.*;
-import com.example.bonyah.Repository.*;
+import com.example.Bonyah.Api.ApiException;
+import com.example.Bonyah.DTO.CustomerDTO;
+import com.example.Bonyah.Models.*;
+import com.example.Bonyah.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,8 @@ public class CustomerService {
             user1.getCustomer().setName(customerDTO.getName());
             user1.getCustomer().setPhone(customerDTO.getPhone());
             authRepo.save(user1);
-        } else {
+        }
+        else{
             throw new ApiException("user not found");
         }
 
@@ -97,26 +98,28 @@ public class CustomerService {
         return products;
     }
 
-    public List<com.example.bonyah.Models.Service> findServicesByCategory(String category) {
-        List<com.example.bonyah.Models.Service> services = serviceRepo.findServicesByCategory(category);
+    public List<com.example.Bonyah.Models.Service> findServicesByCategory(String category) {
+        List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByCategory(category);
         if (services == null) {
             throw new ApiException("there are no services have category " + category);
         }
         return services;
     }
 
-    public List<com.example.bonyah.Models.Service> findServicesByPrice(Integer price) {
-        List<com.example.bonyah.Models.Service> services = serviceRepo.findServicesByPrice(price);
+    public List<com.example.Bonyah.Models.Service> findServicesByPrice(Integer price) {
+        List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByPrice(price);
         if (services == null) {
             throw new ApiException("there are no services have price " + price);
         }
         return services;
     }
 
-    public List<com.example.bonyah.Models.Service> findServicesByCategoryAndPrice(String category, Integer price) {
-        List<com.example.bonyah.Models.Service> services = serviceRepo.findServicesByCategoryAndPrice(category, price);
-        if (services == null) {
-            throw new ApiException("there are no services have category " + category + " and price " + price);
+
+
+    public List<com.example.Bonyah.Models.Service>findServicesByCategoryAndPrice(String category, Integer price){
+        List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByCategoryAndPrice(category,price);
+        if (services==null){
+            throw new ApiException("there are no services have category " + category +" and price " + price);
         }
         return services;
     }
@@ -184,9 +187,10 @@ public class CustomerService {
         return requestRepo.findRequestByCustomer(customer);
     }
 
-    public void sendRequest(Integer customer_id, Integer service_id, Request request) {
 
-        com.example.bonyah.Models.Service service = serviceRepo.findServiceById(service_id);
+
+    public void sendRequest(Integer customer_id,Integer service_id, Request request){
+        com.example.Bonyah.Models.Service service = serviceRepo.findServiceById(service_id);
 
         if (service == null) {
             throw new ApiException("service not found");
@@ -282,7 +286,7 @@ public class CustomerService {
         } else if (!request.getStatus().equals("confirm")) {
             throw new ApiException("sorry! your request isn't confirmed yet ");
         }
-        com.example.bonyah.Models.Service service = serviceRepo.findServiceById(request.getService().getId());
+        com.example.Bonyah.Models.Service service = serviceRepo.findServiceById(request.getService().getId());
         Invoice invoice = invoiceRepo.findInvoiceById(requestId);
 
         if (invoice.getStatus().equals("paid")) {
