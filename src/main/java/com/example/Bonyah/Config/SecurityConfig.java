@@ -40,8 +40,6 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/v1/provider/**").hasAuthority("PROVIDER")
                 .requestMatchers("/api/v1/customer/**").hasAuthority("CUSTOMER")
-
-//                .requestMatchers("/api/v1/auth/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutUrl("/api/v1/auth/logout")
