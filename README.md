@@ -29,5 +29,5 @@ workspace Postman : https://gold-star-24785.postman.co/workspace/75f31906-5108-4
 
 
 I work on Provider Section for all functions like:
-add product
+add product, add service ,confirm order, confirm service , reject order ...
 
