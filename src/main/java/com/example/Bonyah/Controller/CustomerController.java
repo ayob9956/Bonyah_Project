@@ -36,6 +36,11 @@ public class CustomerController {
         return ResponseEntity.status(200).body(new ApiResponse("customer deleted"));
     }
 
+    @PutMapping("/add-balance/{amount}")
+    public ResponseEntity addBalance(@AuthenticationPrincipal User user, @PathVariable Integer amount) {
+        customerService.addBalance(user.getId(), amount);
+        return ResponseEntity.status(200).body(new ApiResponse("balance added successfully"));
+    }
 
     @GetMapping("/order/filter-category/{category}")
     public ResponseEntity findProductByCategory(@PathVariable String category) {
@@ -143,7 +148,7 @@ public class CustomerController {
     @PutMapping("/cancel-invoice/{id}")
     public ResponseEntity cancelInvoice(@AuthenticationPrincipal User user, @PathVariable Integer id) {
         customerService.cancelInvoice(user.getId(), id);
-        return ResponseEntity.status(200).body(new ApiResponse("payment went successfully"));
+        return ResponseEntity.status(200).body(new ApiResponse("canceled went successfully"));
     }
 
     @GetMapping("/my-invoices")

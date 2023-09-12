@@ -57,6 +57,6 @@ public class Request {
     @JsonIgnore
     private Customer customer;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "request")
+    @OneToOne(cascade = CascadeType.DETACH, mappedBy = "request")
     private Invoice invoice;
 }

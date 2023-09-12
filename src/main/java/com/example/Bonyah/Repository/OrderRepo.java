@@ -16,13 +16,12 @@ public interface OrderRepo extends JpaRepository<Orders, Integer> {
     List<Orders> findOrdersByCustomer(Customer customer);
 
 
-    @Query("SELECT o FROM Orders o WHERE o.product.provider = ?1")
-    List<Orders> findOrdersByProvider(Provider provider);
+    @Query("SELECT o FROM Orders o WHERE o.product.provider.id = ?1")
+    List<Orders> findOrdersByProvider(Integer providerId);
 
 
-    @Query("SELECT o FROM Orders o WHERE o.product.provider = ?1 AND o.id = ?2")
-    Orders findOrdersByProvider(Provider provider,Integer id);
-
+    @Query("SELECT o FROM Orders o WHERE o.product.provider.id = ?1 AND o.id = ?2")
+    Orders findOrdersByProvider(Integer provider, Integer id);
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.Bonyah.Controller;
 
 
+import com.example.Bonyah.DTO.ProviderDTO;
 import com.example.Bonyah.DTO.RejectRequestDTO;
 import com.example.Bonyah.Models.Product;
 import com.example.Bonyah.Models.Provider;
@@ -20,14 +21,14 @@ import org.springframework.web.bind.annotation.*;
 public class ProviderController {
     private final ProviderService providerService;
 
-    @GetMapping("/get/provider")
-    public ResponseEntity getProviderInformtion(@AuthenticationPrincipal User user) {
+    @GetMapping("/my-info")
+    public ResponseEntity getProviderInfo(@AuthenticationPrincipal User user) {
 
         return ResponseEntity.status(200).body(providerService.getProviderInfo(user));
     }
 
     @PutMapping("/update")
-    public ResponseEntity updateProvider(@AuthenticationPrincipal User user, @RequestBody Provider provider) {
+    public ResponseEntity updateProvider(@AuthenticationPrincipal User user, @RequestBody @Valid ProviderDTO provider) {
         providerService.updateUser(user, provider);
         return ResponseEntity.status(200).body("Provider updated successfully");
     }
@@ -48,21 +49,32 @@ public class ProviderController {
     }
 
     @PutMapping("/update/product/{id}")
-    public ResponseEntity updateProduct(@PathVariable Integer id,@RequestBody @Valid Product product,@AuthenticationPrincipal User user){
-        providerService.updateProduct(id,product,user);
+    public ResponseEntity updateProduct(@PathVariable Integer id, @RequestBody @Valid Product product, @AuthenticationPrincipal User user) {
+        providerService.updateProduct(id, product, user);
         return ResponseEntity.status(200).body(new ApiResponse("Product updated"));
 
     }
 
     @DeleteMapping("/delete/product/{id}")
-    public ResponseEntity deleteProduct(@PathVariable Integer id,@AuthenticationPrincipal User user) {
-        providerService.deleteProduct(id,user);
+    public ResponseEntity deleteProduct(@PathVariable Integer id, @AuthenticationPrincipal User user) {
+        providerService.deleteProduct(id, user);
         return ResponseEntity.status(200).body(new ApiResponse("Product deleted"));
 
     }
 
+    @GetMapping("/my-products")
+    public ResponseEntity myProducts(@AuthenticationPrincipal User user) {
+        return ResponseEntity.status(200).body(providerService.myProducts(user.getId()));
+    }
+
+
+    @GetMapping("/my-services")
+    public ResponseEntity myServices(@AuthenticationPrincipal User user) {
+        return ResponseEntity.status(200).body(providerService.myServices(user.getId()));
+    }
+
     @PostMapping("/add/service")
-    public ResponseEntity addproducts(@AuthenticationPrincipal User user, @RequestBody Service service) {
+    public ResponseEntity addproducts(@AuthenticationPrincipal User user, @RequestBody @Valid Service service) {
 
         providerService.addService(user, service);
         return ResponseEntity.status(200).body("Product added successfully");
@@ -76,14 +88,15 @@ public class ProviderController {
     }
 
     @PutMapping("/update/service/{id}")
-    public ResponseEntity updateService(@PathVariable Integer id,@RequestBody @Valid Service service,@AuthenticationPrincipal User user) throws Exception {
-        providerService.updateService(id,service,user);
+    public ResponseEntity updateService(@PathVariable Integer id, @RequestBody @Valid Service service, @AuthenticationPrincipal User user) {
+        providerService.updateService(id, service, user);
         return ResponseEntity.status(200).body(new ApiResponse("Service updated"));
 
     }
+
     @DeleteMapping("/delete/service/{id}")
-    public ResponseEntity deleteService(@PathVariable Integer id,@AuthenticationPrincipal User user){
-        providerService.deleteService(id,user);
+    public ResponseEntity deleteService(@PathVariable Integer id, @AuthenticationPrincipal User user) {
+        providerService.deleteService(id, user);
         return ResponseEntity.status(200).body(new ApiResponse("Service deleted"));
 
     }
@@ -93,6 +106,7 @@ public class ProviderController {
 
         return ResponseEntity.status(200).body(providerService.getRequestByProvider(user));
     }
+
 
     @GetMapping("/confirm/order/{id}")
     public ResponseEntity getOrdersByProvider(@AuthenticationPrincipal User user, @PathVariable Integer id) {
