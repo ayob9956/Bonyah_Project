@@ -70,7 +70,7 @@ public class AdminController {
         return ResponseEntity.status(200).body(new ApiResponse("complaint opened"));
     }
 
-    @GetMapping("/get-waiting-complaint")
+    @GetMapping("/waiting-complaint")
     public ResponseEntity getWaitingComplaint() {
         return ResponseEntity.status(200).body(adminService.getWaitingComplaint());
     }

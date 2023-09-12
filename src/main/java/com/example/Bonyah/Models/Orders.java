@@ -26,7 +26,7 @@ public class Orders {
 
 
     @NotNull(message = "quantity must be not null")
-    @Min(value = 1,message = "sorry! quantity must be greater than 0")
+    @Min(value = 1, message = "sorry! quantity must be greater than 0")
     @Column(columnDefinition = "integer not null")
     private Integer quantity;
 
@@ -55,7 +55,7 @@ public class Orders {
     @JoinColumn
     private Customer customer;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "orders")
+    @OneToOne(cascade = CascadeType.DETACH, mappedBy = "orders")
     private Invoice invoice;
 
 

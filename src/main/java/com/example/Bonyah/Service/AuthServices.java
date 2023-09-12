@@ -42,7 +42,7 @@ public class AuthServices {
         User user = new User(null, providerDTO.getUsername(), providerDTO.getEmail(), providerDTO.getPassword(), "PROVIDER", null, null);
 
 
-        Provider provider = new Provider(null, providerDTO.getName(), providerDTO.getCommercialRecord(), providerDTO.getPhone(), 0, providerDTO.getLocation(), null, user, null, null);
+        Provider provider = new Provider(null, providerDTO.getName(), providerDTO.getCommercialRecord(), providerDTO.getPhone(), 0, providerDTO.getLocation(), "waiting", user, null, null);
 
         providerRepo.save(provider);
 

@@ -31,12 +31,10 @@ public class Invoice {
     private LocalDateTime invoice_date = LocalDateTime.now();
 
     @OneToOne
-    @MapsId
     @JsonIgnore
     private Request request;
 
     @OneToOne
-    @MapsId
     @JsonIgnore
     private Orders orders;
 

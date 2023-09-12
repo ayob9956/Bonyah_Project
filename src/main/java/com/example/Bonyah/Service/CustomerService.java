@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -49,8 +50,7 @@ public class CustomerService {
             user1.getCustomer().setName(customerDTO.getName());
             user1.getCustomer().setPhone(customerDTO.getPhone());
             authRepo.save(user1);
-        }
-        else{
+        } else {
             throw new ApiException("user not found");
         }
 
@@ -59,11 +59,12 @@ public class CustomerService {
 
     public void deleteCustomer(Integer user_id) {
         User user1 = authRepo.findUserById(user_id);
-        if (user1 != null && user1.getRole().equalsIgnoreCase("customer")) {
-            authRepo.delete(user1);
+        if (user1 == null) {
+            throw new ApiException("user not found");
         }
 
-        throw new ApiException("user not found");
+        authRepo.delete(user1);
+
     }
 
     public Provider findProviderByName(String providerName) {
@@ -114,6 +115,7 @@ public class CustomerService {
         return services;
     }
 
+
     public List<com.example.Bonyah.Models.Service> findServicesByCategoryAndPrice(String category, Integer price) {
         List<com.example.Bonyah.Models.Service> services = serviceRepo.findServicesByCategoryAndPrice(category, price);
         if (services == null) {
@@ -134,33 +136,36 @@ public class CustomerService {
         if (product == null) {
             throw new ApiException("product not found");
         }
+        Integer total = orders.getQuantity() * product.getPrice();
 
+        LocalDateTime order_date = LocalDateTime.now();
 
         Customer customer = customerRepo.findCustomerById(customer_id);
-        orders.setCustomer(customer);
 
-        orders.setProduct(product);
+        Orders orders1 = new Orders(null, orders.getQuantity(), "waiting", total, orders.getLocation(), order_date, product, customer, null);
 
-        orders.setTotal(orders.getProduct().getPrice() * orders.getQuantity());
-        orders.setStatus("waiting");
-        orderRepo.save(orders);
+
+        orderRepo.save(orders1);
 
     }
 
 
     public void UpdateOrder(Integer customer_id, Integer order_id, Orders orders) {
         Orders orders1 = orderRepo.findOrdersById(order_id);
-        if (orders1 != null && orders1.getCustomer().getId().equals(customer_id)) {
-            orders1.setQuantity(orders.getQuantity());
-            orders1.setStatus("waiting");
-            orders1.setTotal((orders.getProduct().getPrice() * orders.getQuantity()));
-            orders1.setLocation(orders.getLocation());
-            orders1.setOrder_date(orders.getOrder_date());
-            orderRepo.save(orders1);
 
-        } else {
+        if (orders1 == null) {
             throw new ApiException("order not found");
         }
+        if (!orders1.getCustomer().getId().equals(customer_id)) {
+            throw new ApiException("order don't belong to you");
+        }
+
+
+        orders1.setQuantity(orders.getQuantity());
+        orders1.setStatus("waiting");
+        orders1.setTotal((orders1.getProduct().getPrice() * orders.getQuantity()));
+        orders1.setLocation(orders.getLocation());
+        orderRepo.save(orders1);
     }
 
 
@@ -186,21 +191,19 @@ public class CustomerService {
     }
 
 
-
-    public void sendRequest(Integer customer_id,Integer service_id, Request request){
+    public void sendRequest(Integer customer_id, Integer service_id, Request request) {
         com.example.Bonyah.Models.Service service = serviceRepo.findServiceById(service_id);
 
         if (service == null) {
             throw new ApiException("service not found");
         }
 
-        User user = authRepo.findUserById(customer_id);
-        request.setCustomer(user.getCustomer());
+
         Customer customer = customerRepo.findCustomerById(customer_id);
-        request.setCustomer(customer);
-        request.setService(service);
-        request.setStatus("waiting");
-        requestRepo.save(request);
+        Request request1 = new Request(null, request.getCustomer_description(), request.getCustomer_price(),
+                null, null, request.getLocation(), "waiting", service, customer, null);
+
+        requestRepo.save(request1);
 
     }
 
@@ -212,7 +215,7 @@ public class CustomerService {
             request1.setCustomer_description(request.getCustomer_description());
             request1.setLocation(request.getLocation());
 
-
+            requestRepo.save(request1);
         } else {
             throw new ApiException("request not found");
         }
@@ -238,19 +241,18 @@ public class CustomerService {
 
     public void payOrderInvoice(Integer userId, Integer orderID) {
         Customer customer = customerRepo.findCustomerById(userId);
-        Orders orders = orderRepo.findOrdersById(orderID);
-
-        if (orders == null) {
-            throw new ApiException("order not found");
-        } else if (!orders.getCustomer().getId().equals(userId)) {
-            throw new ApiException("this Invoice isn't belong to you");
-        } else if (customer.getBalance() < orders.getTotal()) {
-            throw new ApiException("sorry! your balance less than total of order ");
-        } else if (!orders.getStatus().equals("confirm")) {
-            throw new ApiException("sorry! your order isn't confirmed yet ");
-        }
-        Product product = productRepo.findProductById(orders.getProduct().getId());
         Invoice invoice = invoiceRepo.findInvoiceById(orderID);
+
+        if (invoice == null) {
+            throw new ApiException("order not found");
+        } else if (!invoice.getCustomer().getId().equals(userId)) {
+            throw new ApiException("this Invoice isn't belong to you");
+        } else if (customer.getBalance() < invoice.getTotal()) {
+            throw new ApiException("sorry! your balance less than total of order ");
+        }
+
+        Product product = productRepo.findProductById(invoice.getOrders().getProduct().getId());
+
         if (invoice.getStatus().equals("paid")) {
             throw new ApiException("sorry! this invoice is already paid");
         } else if (invoice.getStatus().equals("canceled")) {
@@ -259,11 +261,11 @@ public class CustomerService {
 
         Provider provider = product.getProvider();
 
-        customer.setBalance(customer.getBalance() - orders.getTotal());
-        provider.setBalance(provider.getBalance() + orders.getTotal());
-        product.setStock(product.getStock() - orders.getQuantity());
+        customer.setBalance(customer.getBalance() - invoice.getTotal());
+        provider.setBalance(provider.getBalance() + invoice.getTotal());
+        product.setStock(product.getStock() - invoice.getOrders().getQuantity());
         invoice.setStatus("paid");
-        invoice.setTotal(orders.getTotal());
+
 
         invoiceRepo.save(invoice);
         customerRepo.save(customer);
@@ -341,6 +343,14 @@ public class CustomerService {
         complaint.setCustomer(customer);
         complaint.setStatus("waiting");
         complaintRepo.save(complaint);
+    }
+
+    public void addBalance(Integer userId, Integer amount) {
+        Customer customer = customerRepo.findCustomerById(userId);
+
+        customer.setBalance(customer.getBalance() + amount);
+
+        customerRepo.save(customer);
     }
 
 
