@@ -16,6 +16,9 @@ Bonyah makes the construction process easier by providing access to a wide range
 The platform helps to reduce costs and improve efficiency by providing access to more competitive bids and more efficient project management.
 Bonyah contributes to improving building quality by providing access to the latest technologies and practices.
 
+
+![QR Bonyah](https://github.com/ayob9956/Bonyah_Project/assets/139464497/a7412687-21b4-4ac1-a392-24ec5c423f5f)
+
 ![customer](https://github.com/ayob9956/Bonyah_Project/assets/139464497/06bc87ba-c26c-4999-8d7d-16741bfb8dc5)
 ![class digram](https://github.com/ayob9956/Bonyah_Project/assets/139464497/8e6d5a5f-514e-4972-ba58-fd5b330c31a8)
 ![admin](https://github.com/ayob9956/Bonyah_Project/assets/139464497/b5b4c6c2-aeaa-4f9a-a26d-25d119e3c036)
@@ -29,5 +32,7 @@ workspace Postman : https://gold-star-24785.postman.co/workspace/75f31906-5108-4
 
 
 I work on Provider Section for all functions like:
-add product, add service ,confirm order, confirm service , reject order ...
+add product, add service ,confirm order, confirm service , reject order,update product Copy,delete product ,
+delete product,get my products Copy,
+get orders ,confirm order Copy , reject order, add service ,reject order ...
 
