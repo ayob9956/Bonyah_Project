@@ -17,6 +17,14 @@ The platform helps to reduce costs and improve efficiency by providing access to
 Bonyah contributes to improving building quality by providing access to the latest technologies and practices.
 
 
+I work on Provider Section for all functions like:
+add product, add service ,confirm order, confirm service , reject order,update product Copy,delete product ,
+delete product,get my products Copy,
+get orders ,confirm order Copy , reject order, add service ,reject order ...etc
+
+and build model and reposetiry for provider and services and product and reletion between them .
+
+
 ![QR Bonyah](https://github.com/ayob9956/Bonyah_Project/assets/139464497/a7412687-21b4-4ac1-a392-24ec5c423f5f)
 
 ![customer](https://github.com/ayob9956/Bonyah_Project/assets/139464497/06bc87ba-c26c-4999-8d7d-16741bfb8dc5)
@@ -31,8 +39,7 @@ canva presntetion : https://www.canva.com/design/DAFuJtL5fZo/OJyimUz1VxHN8nrBp0e
 workspace Postman : https://gold-star-24785.postman.co/workspace/75f31906-5108-4d11-80b5-c22b4fb8170f
 
 
-I work on Provider Section for all functions like:
-add product, add service ,confirm order, confirm service , reject order,update product Copy,delete product ,
-delete product,get my products Copy,
-get orders ,confirm order Copy , reject order, add service ,reject order ...
+
+
+
 
