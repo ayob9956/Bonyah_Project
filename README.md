@@ -18,9 +18,9 @@ Bonyah contributes to improving building quality by providing access to the late
 
 
 I work on Provider Section for all functions like:
-add product, add service ,confirm order, confirm service , reject order,update product Copy,delete product ,
-delete product,get my products Copy,
-get orders ,confirm order Copy , reject order, add service ,reject order ...etc
+add product, add service ,confirm order, confirm service , reject order,update product ,delete product ,
+delete product,get my products ,
+get orders ,confirm order  , reject order, add service ,reject order ...etc
 
 and build model and reposetiry for provider and services and product and reletion between them .
 
