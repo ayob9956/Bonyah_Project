@@ -19,8 +19,7 @@ Bonyah contributes to improving building quality by providing access to the late
 
 I work on Provider Section for all functions like:
 add product, add service ,confirm order, confirm service , reject order,update product ,delete product ,
-delete product,get my products ,
-get orders ,confirm order  , reject order, add service ,reject order ...etc
+delete product,get my products  ...etc
 
 and build model and reposetiry for provider and services and product and reletion between them .
 
@@ -34,7 +33,12 @@ and build model and reposetiry for provider and services and product and reletio
 
 
 figma :  https://www.figma.com/file/4smQrQXCPEomvg7Zs75wcf/Untitled?type=design&node-id=0%3A1&mode=design&t=zWhfXOccSAptOZk6-1
+
+.
+
 canva presntetion : https://www.canva.com/design/DAFuJtL5fZo/OJyimUz1VxHN8nrBp0ebIQ/edit?utm_content=DAFuJtL5fZo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+.
 
 workspace Postman : https://gold-star-24785.postman.co/workspace/75f31906-5108-4d11-80b5-c22b4fb8170f
 
